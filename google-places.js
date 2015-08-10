@@ -81,17 +81,17 @@
         }
 
         var renderStars = function(rating){
-          var stars = "<div class='room-rating'><ul>";
+          var stars = "<div class='review-stars'><ul>";
                             
           // fill in gold stars
           for (var i = 0; i < rating; i++) {
-            stars = stars+"<li><i class='fa fa-star'></i></li>";
+            stars = stars+"<li><i class='star'></i></li>";
           };
 
           // fill in empty stars
           if(rating < 5){
             for (var i = 0; i < (5 - rating); i++) {
-              stars = stars+"<li><i class='fa fa-star inactive'></i></li>";
+              stars = stars+"<li><i class='star inactive'></i></li>";
             };
           }
           stars = stars+"</ul></div>";
