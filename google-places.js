@@ -5,6 +5,8 @@
         var defaults = {
               placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4' // placeId provided by google api documentation
             , render: ['reviews']
+            , min_rating: 0
+            , max_rows: 0
         }
 
         var plugin = this;
@@ -42,9 +44,35 @@
           });
         }
 
+        var sort_by_date = function(ray) {
+          ray.sort(function(a, b){
+            var keyA = new Date(a.time),
+            keyB = new Date(b.time);
+            // Compare the 2 dates
+            if(keyA < keyB) return -1;
+            if(keyA > keyB) return 1;
+            return 0;
+          });
+          return ray;
+        }
+
+        var filter_minimum_rating = function(reviews){
+          for (var i = reviews.length -1; i >= 0; i--) {
+            if(reviews[i].rating < plugin.settings.min_rating){
+              reviews.splice(i,1);
+            }
+          }
+          return reviews;
+        }
+
         var renderReviews = function(reviews){
+          reviews = sort_by_date(reviews);
+          reviews = filter_minimum_rating(reviews);
           var html = "";
-          for (var i = reviews.length - 1; i >= 0; i--) {
+          var row_count = (plugin.settings.max_rows > 0)? plugin.settings.max_rows - 1 : reviews.length - 1;
+          // make sure the row_count is not greater than available records
+          row_count = (row_count > reviews.length)? reviews.length -1 : row_count;
+          for (var i = row_count; i >= 0; i--) {
             var stars = renderStars(reviews[i].rating);
             var date = convertTime(reviews[i].time);
             html = html+"<div><div><span><strong>"+reviews[i].author_name+"</strong></span> <span>"+date+"</span></div>"+stars+"<p>"+reviews[i].text+"</p>"
