@@ -3,6 +3,18 @@ A jQuery plugin to render google places data.
 
 Currently the only only thing that is rendered is a list view of reviews. 
 
+### Install
+Install with bower.
+```
+bower install google-places
+```
+
+### Include these in your header
+```
+<link rel="stylesheet" href="bower_components/google-places/google-places.css">
+<script src="bower_components/google-places/google-places.js"></script>
+```
+
 ### Options
 
 | Required | Description |
