@@ -14,6 +14,7 @@ Include these files in the head
 ```
 <link rel="stylesheet" href="bower_components/google-places/google-places.css">
 <script src="bower_components/google-places/google-places.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 ```
 
 ### Options
