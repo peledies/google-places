@@ -1,5 +1,6 @@
 .review-stars ul {
   display: inline-block;
+  list-style: none;
 }
 
 .review-stars ul li {
