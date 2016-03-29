@@ -28,6 +28,7 @@ Include these files in the head
 | **render** | Currently only supports reviews |
 | **min_rating** | Only display reviews with a minimum rating |
 | **max_rows** | Maximum number of rows to show |
+| **rotateTime** | Time in MS to show review before rotating or false for no rotate |
 
 ### Usage
 
@@ -37,5 +38,6 @@ $("#google-reviews").googlePlaces({
   , render: ['reviews']
   , min_rating: 4
   , max_rows:5
+  , rotateTime:5000
 });
 ```
