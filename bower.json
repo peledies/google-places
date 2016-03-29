@@ -17,6 +17,6 @@
   ],
   "dependencies": {
     "jquery": ">= 1.11.1",
-    "google-places": "^0.0"
+    "google-places": "latest"
   }
 }

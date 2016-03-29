@@ -1,3 +1,4 @@
+/* https://github.com/peledies/google-places */
 (function($) {
 
     $.googlePlaces = function(element, options) {
@@ -7,7 +8,8 @@
             , render: ['reviews']
             , min_rating: 0
             , max_rows: 0
-        }
+            , rotateTime: false
+        };
 
         var plugin = this;
 
@@ -24,6 +26,9 @@
             // render specified sections
             if(plugin.settings.render.indexOf('reviews') > -1){
               renderReviews(plugin.place_data.reviews);
+              if(!!plugin.settings.rotateTime) {
+                  initRotation();
+              }
             }
           });
         }
@@ -78,6 +83,22 @@
             html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
           };
           $element.append(html);
+        }
+        
+        var initRotation = function() {
+            var $reviewEls = $element.children('.review-item');
+            var currentIdx = $reviewEls.length > 0 ? 0 : false;
+            $reviewEls.hide();
+            if(currentIdx !== false) {
+                $($reviewEls[currentIdx]).show();
+                setInterval(function(){ 
+                    if(++currentIdx >= $reviewEls.length) {
+                        currentIdx = 0;
+                    }
+                    $reviewEls.hide();
+                    $($reviewEls[currentIdx]).fadeIn('slow');
+                }, plugin.settings.rotateTime);
+            }
         }
 
         var renderStars = function(rating){
