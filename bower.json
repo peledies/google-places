@@ -1,0 +1,22 @@
+{
+  "name": "google-places",
+  "homepage": "https://github.com/peledies/google-places",
+  "authors": [
+    "deac <deac@sdicg.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.11.1",
+    "google-places": "^0.0"
+  }
+}

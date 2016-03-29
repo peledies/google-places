@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Google-places List Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" href="bower_components/google-places/google-places.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/google-places/google-places.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Google-places</h1>
+      <h2 class="project-tagline">A jQuery plugin to render google places data</h2>
+      <a href="https://github.com/peledies/google-places" class="btn">View on GitHub</a>
+      <a href="https://github.com/peledies/google-places/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/peledies/google-places/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+        google-places
+      </h1>
+
+      <h2>List Demo</h2>
+      <div id="google-reviews"></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/peledies/google-places">Google-places</a> is maintained by <a href="https://github.com/peledies">peledies</a>.</span>
+      </footer>
+    </section>
+
+  <script>
+    $(document).ready(function() {
+      $("#google-reviews").googlePlaces({
+          placeId: 'ChIJa2uI-Nt4bIcR5cvnOxD4cFg'
+        , render: ['reviews']
+        , min_rating: 4
+        , max_rows:5
+      });
+    });
+  </script>
+  </body>
+</html>

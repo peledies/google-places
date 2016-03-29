@@ -8,6 +8,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" href="bower_components/google-places/google-places.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/google-places/google-places.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
   </head>
   <body>
     <section class="page-header">
@@ -21,6 +25,11 @@
     <section class="main-content">
       <h1>
 <a id="google-places" class="anchor" href="#google-places" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>google-places</h1>
+
+<h2>Demos</h2>
+<a href="fade_demo.html">Fade Demo</a>
+<a href="list_demo.html">List Demo</a>
+
 
 <p>A jQuery plugin to render google places data.</p>
 
@@ -112,6 +121,16 @@
 
     </section>
 
-  
+  <script>
+  $(document).ready(function() {
+    $("#google-reviews").googlePlaces({
+        placeId: 'ChIJa2uI-Nt4bIcR5cvnOxD4cFg'
+      , render: ['reviews']
+      , min_rating: 4
+      , max_rows:5
+      , rotateTime:5000
+    });
+  });
+  </script>
   </body>
 </html>
