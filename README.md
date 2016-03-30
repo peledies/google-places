@@ -25,9 +25,9 @@ Include these files in the head
 
 | Optional | Description |
 |----------|-------------|
-| **render** | Currently only supports reviews |
-| **min_rating** | Only display reviews with a minimum rating |
-| **max_rows** | Maximum number of rows to show |
+| **render** | Currently only supports reviews and schema |
+| **min_rating** | Only display reviews with a minimum rating (not applicable for schema)|
+| **max_rows** | Maximum number of rows to show (not applicable for schema)|
 | **rotateTime** | Time in MS to show review before rotating or false for no rotate |
 
 ### Usage
