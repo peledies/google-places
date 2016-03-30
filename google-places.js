@@ -86,7 +86,6 @@
             var date = convertTime(reviews[i].time);
             html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
           };
-          // Set totals and averages - may be used later.
           $element.append(html);
         }
         
