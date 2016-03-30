@@ -30,6 +30,10 @@
                   initRotation();
               }
             }
+            // render schema markup
+            if(plugin.settings.render.indexOf('schema') > -1){
+                getSchemaMarkup(plugin.place_data);
+            }
           });
         }
 
@@ -75,13 +79,18 @@
           reviews = filter_minimum_rating(reviews);
           var html = "";
           var row_count = (plugin.settings.max_rows > 0)? plugin.settings.max_rows - 1 : reviews.length - 1;
+          var reviewPointTotal = 0;
           // make sure the row_count is not greater than available records
           row_count = (row_count > reviews.length)? reviews.length -1 : row_count;
           for (var i = row_count; i >= 0; i--) {
             var stars = renderStars(reviews[i].rating);
+            reviewPointTotal += reviews[i].rating;
             var date = convertTime(reviews[i].time);
             html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
           };
+          // Set totals and averages - may be used later.
+          numReviews = row_count;
+          averageReview = reviewPointTotal / numReviews;
           $element.append(html);
         }
         
@@ -125,9 +134,27 @@
           var time = months[a.getMonth()] + ' ' + a.getDate() + ', ' + a.getFullYear();
           return time;
         }
-
+        
+        var getSchemaMarkup = function(placeData) {
+          var reviews = placeData.reviews;
+          var row_count = reviews.length - 1;
+          var reviewPointTotal = 0;
+          for (var i = row_count; i >= 0; i--) {
+            reviewPointTotal += reviews[i].rating;
+          };
+          // Set totals and averages.
+          var averageReview = reviewPointTotal / ( reviews.length );
+            $element.append( '<span itemscope="" itemtype="http://schema.org/Store">'
+            +  '<meta itemprop="url" content="' + location.origin + '">'
+            +  'Google users have rated <span itemprop="name">' + placeData.name + '</span> '
+            +  '<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">'
+            +    '<span itemprop="ratingValue">' + averageReview + '</span>/<span itemprop="bestRating">5</span>'
+            +    ' based on <span itemprop="ratingCount">' + reviews.length + '</span> ratings and reviews'
+            +  '</span>'
+            +'</span>');
+        }
+        
         plugin.init();
-
     }
 
     $.fn.googlePlaces = function(options) {
