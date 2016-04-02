@@ -30,6 +30,7 @@
 <ul>
 <li><a href="fade_demo.html">Fade Demo</a></li>
 <li><a href="list_demo.html">List Demo</a></li>
+<li><a href="schema_demo.html">Schema Demo</a></li>
 </ul>
 
 <p>A jQuery plugin to render google places data.</p>
@@ -99,7 +100,73 @@
 <td><strong>rotateTime</strong></td>
 <td>Time in MS to show review before rotating or false for no rotate</td>
 </tr>
+<tr>
+  <td>schema</td>
+  <td>Options for displaying Schema see below</td>
+</tr>
 </tbody>
+</table>
+
+<a id="optional-schema-markup" class="anchor" href="#optional-schema-markup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Optional Schema Markup</h3>
+
+
+<p>The schema markup will render something like below:</p>
+
+<pre><code>
+  &lt;span itemscope="" itemtype="http://schema.org/Hostel">
+      &lt;meta itemprop="url" content="http://example.com">
+      Google Users Have Rated 
+      &lt;span itemprop="name">
+          Hostel Fish
+      &lt;/span> 
+      &lt;span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+          &lt;span itemprop="ratingValue">5&lt;/span>/&lt;span itemprop="bestRating">5&lt;/span> 
+          based on &lt;span itemprop="ratingCount">5&lt;/span> ratings and reviews
+      &lt;/span>
+  &lt;/span>
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>Schema</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>displayElement</td>
+      <td>Object</td>
+      <td>Jquery object or string location where the schema will be appended</td>
+      <td>'#schema'</td>
+    </tr>
+    <tr>
+      <td>beforeText</td>
+      <td>String</td>
+      <td>Text before ratings</td>
+      <td>'Google Users Have Rated'</td>
+    </tr>
+    <tr>
+      <td>middleText</td>
+      <td>String</td>
+      <td>Text in between ratings</td>
+      <td>'based on'</td>
+    </tr>
+    <tr>
+      <td>afterText</td>
+      <td>String</td>
+      <td>last text in rating</td>
+      <td>'ratings and reviews'</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>String</td>
+      <td><a href="https://schema.org/docs/full.html">schema.org type</a></td>
+      <td>'Store</td>
+    </tr>
+  </tbody>
 </table>
 
 <h3>
@@ -111,6 +178,13 @@
   , min_rating: 4
   , max_rows:5
   , rotateTime:5000
+  , schema: {
+            displayElement: '#schema'
+          , beforeText: 'Googlers rated'
+          , middleText: 'based on'
+          , afterText: 'awesome reviewers.'
+          , type: 'Hostel'
+      }
 });
 </code></pre>
 
