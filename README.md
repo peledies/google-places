@@ -23,12 +23,36 @@ Include these files in the head
 |----------|-------------|
 | **placeId**  | google placeId |
 
-| Optional | Description |
-|----------|-------------|
-| **render** | Currently only supports reviews and schema |
-| **min_rating** | Only display reviews with a minimum rating (not applicable for schema)|
-| **max_rows** | Maximum number of rows to show (not applicable for schema)|
-| **rotateTime** | Time in MS to show review before rotating or false for no rotate |
+| Optional | Type | Description | Default |
+|----------|----------|-------------|----------|
+| **render** | Array | Currently only supports reviews and schema | ['reviews']
+| **min_rating** | Int | Only display reviews with a minimum rating (not applicable for schema)| 0
+| **max_rows** | Int | Maximum number of rows to show - 0 for all (not applicable for schema)| 0
+| **rotateTime** | Int | Time in MS to show review before rotating or false for no rotate | false
+| **schema** | Object | Options for displaying Schema | see below |
+
+### Optional Schema Markup
+The schema markup will render something like below: 
+```
+<span itemscope="" itemtype="http://schema.org/Store">
+    <meta itemprop="url" content="http://example.com">
+    Google Users Have Rated 
+    <span itemprop="name">
+        Hostel Fish
+    </span> 
+    <span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+        <span itemprop="ratingValue">5</span>/<span itemprop="bestRating">5</span> 
+        based on <span itemprop="ratingCount">5</span> ratings and reviews
+    </span>
+</span>
+```
+
+| Schema | Type | Description | Default |
+|----------|----------|-------------|----------|
+| **displayElement** | Object | Jquery object where the schema will be appended | {} |
+| **beforeText** | String | Text before ratings | 'Google Users Have Rated' |
+| **middleText** | String | Text in between ratings | 'based on' |
+| **afterText** | String | last text in rating | 'ratings and reviews' |
 
 ### Usage
 
@@ -39,5 +63,11 @@ $("#google-reviews").googlePlaces({
   , min_rating: 4
   , max_rows:5
   , rotateTime:5000
+  , schema: {
+          displayElement: $('#schema'),
+          beforeText: 'Googlers rated',
+          middleText: 'based on',
+          afterText: 'awesome reviewers.'
+      }
 });
 ```
