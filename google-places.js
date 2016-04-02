@@ -12,7 +12,7 @@
             ,schema:{
                 displayElement: {},
                 beforeText: 'Google Users Have Rated',
-                middleText: 'base on',
+                middleText: 'based on',
                 afterText: 'ratings and reviews'
             }
         };
