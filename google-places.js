@@ -9,6 +9,12 @@
             , min_rating: 0
             , max_rows: 0
             , rotateTime: false
+            ,schema:{
+                displayElement: {},
+                beforeText: 'Google Users Have Rated',
+                middleText: 'based on',
+                afterText: 'ratings and reviews'
+            }
         };
 
         var plugin = this;
@@ -29,6 +35,10 @@
               if(!!plugin.settings.rotateTime) {
                   initRotation();
               }
+            }
+            // render schema markup
+            if(plugin.settings.schema.displayElement instanceof jQuery){
+                addSchemaMarkup(plugin.place_data);
             }
           });
         }
@@ -125,9 +135,29 @@
           var time = months[a.getMonth()] + ' ' + a.getDate() + ', ' + a.getFullYear();
           return time;
         }
-
+        
+        var addSchemaMarkup = function(placeData) {
+          var reviews = placeData.reviews;
+          var lastIndex = reviews.length - 1;
+          var reviewPointTotal = 0;
+          for (var i = lastIndex; i >= 0; i--) {
+            reviewPointTotal += reviews[i].rating;
+          };
+          // Set totals and averages - may be used later.
+          var averageReview = reviewPointTotal / ( reviews.length );
+            plugin.settings.schema.displayElement.append( '<span itemscope="" itemtype="http://schema.org/Store">'
+            +  '<meta itemprop="url" content="' + location.origin + '">'
+            +  plugin.settings.schema.beforeText + ' <span itemprop="name">' + placeData.name + '</span> '
+            +  '<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">'
+            +    '<span itemprop="ratingValue">' + averageReview + '</span>/<span itemprop="bestRating">5</span> '
+            +  plugin.settings.schema.middleText + ' <span itemprop="ratingCount">' + reviews.length + '</span> '
+            +  plugin.settings.schema.afterText
+            +  '</span>'
+            +'</span>');
+        }
+        
         plugin.init();
-
+        
     }
 
     $.fn.googlePlaces = function(options) {
