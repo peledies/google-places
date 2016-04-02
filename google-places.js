@@ -9,6 +9,12 @@
             , min_rating: 0
             , max_rows: 0
             , rotateTime: false
+            ,schema:{
+                displayElement: {},
+                beforeText: 'Google Users Have Rated',
+                middleText: 'base on',
+                afterText: 'ratings and reviews'
+            }
         };
 
         var plugin = this;
@@ -31,8 +37,8 @@
               }
             }
             // render schema markup
-            if(plugin.settings.render.indexOf('schema') > -1){
-                getSchemaMarkup(plugin.place_data);
+            if(plugin.settings.schema.displayElement instanceof jQuery){
+                addSchemaMarkup(plugin.place_data);
             }
           });
         }
@@ -130,7 +136,7 @@
           return time;
         }
         
-        var getSchemaMarkup = function(placeData) {
+        var addSchemaMarkup = function(placeData) {
           var reviews = placeData.reviews;
           var lastIndex = reviews.length - 1;
           var reviewPointTotal = 0;
@@ -139,12 +145,13 @@
           };
           // Set totals and averages - may be used later.
           var averageReview = reviewPointTotal / ( reviews.length );
-            $element.append( '<span itemscope="" itemtype="http://schema.org/Store">'
+            plugin.settings.schema.displayElement.append( '<span itemscope="" itemtype="http://schema.org/Store">'
             +  '<meta itemprop="url" content="' + location.origin + '">'
-            +  'Google users have rated <span itemprop="name">' + placeData.name + '</span> '
+            +  plugin.settings.schema.beforeText + ' <span itemprop="name">' + placeData.name + '</span> '
             +  '<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">'
-            +    '<span itemprop="ratingValue">' + averageReview + '</span>/<span itemprop="bestRating">5</span>'
-            +    ' based on <span itemprop="ratingCount">' + reviews.length + '</span> ratings and reviews'
+            +    '<span itemprop="ratingValue">' + averageReview + '</span>/<span itemprop="bestRating">5</span> '
+            +  plugin.settings.schema.middleText + ' <span itemprop="ratingCount">' + reviews.length + '</span> '
+            +  plugin.settings.schema.afterText
             +  '</span>'
             +'</span>');
         }
