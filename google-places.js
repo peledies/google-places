@@ -9,11 +9,12 @@
             , min_rating: 0
             , max_rows: 0
             , rotateTime: false
-            ,schema:{
-                displayElement: {},
-                beforeText: 'Google Users Have Rated',
-                middleText: 'based on',
-                afterText: 'ratings and reviews'
+            , schema:{
+                  displayElement: '#schema'
+                , type: 'Store'
+                , beforeText: 'Google Users Have Rated'
+                , middleText: 'based on'
+                , afterText: 'ratings and reviews'
             }
         };
 
@@ -26,6 +27,7 @@
 
         plugin.init = function() {
           plugin.settings = $.extend({}, defaults, options);
+          plugin.settings.schema = $.extend({}, defaults.schema, options.schema);
           $element.html("<div id='map-plug'></div>"); // create a plug for google to load data into
           initialize_place(function(place){
             plugin.place_data = place;
@@ -39,6 +41,18 @@
             // render schema markup
             if(plugin.settings.schema.displayElement instanceof jQuery){
                 addSchemaMarkup(plugin.place_data);
+            }else if(typeof plugin.settings.schema.displayElement == 'string'){
+              try{
+                var ele = $(plugin.settings.schema.displayElement);
+                if( ele.length ){
+                  plugin.settings.schema.displayElement = ele; 
+                  addSchemaMarkup(plugin.place_data);
+                }else{
+                  throw 'Element [' + plugin.settings.schema.displayElement + '] couldnt be found in the DOM. Skipping schema markup generation.';
+                }
+              }catch(e){
+                console.warn(e); 
+              } 
             }
           });
         }
@@ -140,18 +154,19 @@
           var reviews = placeData.reviews;
           var lastIndex = reviews.length - 1;
           var reviewPointTotal = 0;
+          var schema = plugin.settings.schema;
           for (var i = lastIndex; i >= 0; i--) {
             reviewPointTotal += reviews[i].rating;
           };
           // Set totals and averages - may be used later.
           var averageReview = reviewPointTotal / ( reviews.length );
-            plugin.settings.schema.displayElement.append( '<span itemscope="" itemtype="http://schema.org/Store">'
+            schema.displayElement.append( '<span itemscope="" itemtype="http://schema.org/' + schema.type + '">'
             +  '<meta itemprop="url" content="' + location.origin + '">'
-            +  plugin.settings.schema.beforeText + ' <span itemprop="name">' + placeData.name + '</span> '
+            +  schema.beforeText + ' <span itemprop="name">' + placeData.name + '</span> '
             +  '<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">'
             +    '<span itemprop="ratingValue">' + averageReview + '</span>/<span itemprop="bestRating">5</span> '
-            +  plugin.settings.schema.middleText + ' <span itemprop="ratingCount">' + reviews.length + '</span> '
-            +  plugin.settings.schema.afterText
+            +  schema.middleText + ' <span itemprop="ratingCount">' + reviews.length + '</span> '
+            +  schema.afterText
             +  '</span>'
             +'</span>');
         }
