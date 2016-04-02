@@ -51,10 +51,12 @@ The schema markup will render something like below:
 
 | Schema | Type | Description | Default |
 |----------|----------|-------------|----------|
-| **displayElement** | Object | Jquery object where the schema will be appended | {} |
+| **displayElement** | Object | Jquery object or string location where the schema will be appended | '#schema' |
 | **beforeText** | String | Text before ratings | 'Google Users Have Rated' |
 | **middleText** | String | Text in between ratings | 'based on' |
 | **afterText** | String | last text in rating | 'ratings and reviews' |
+| **type** | String | schema.org [type](https://schema.org/docs/full.html) | 'Store' |
+
 
 ### Usage
 
@@ -66,10 +68,11 @@ $("#google-reviews").googlePlaces({
   , max_rows:5
   , rotateTime:5000
   , schema: {
-          displayElement: $('#schema'),
-          beforeText: 'Googlers rated',
-          middleText: 'based on',
-          afterText: 'awesome reviewers.'
+            displayElement: '#schema'
+          , beforeText: 'Googlers rated'
+          , middleText: 'based on'
+          , afterText: 'awesome reviewers.'
+          , type: 'Hostel'
       }
 });
 ```
