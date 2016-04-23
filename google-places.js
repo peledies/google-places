@@ -100,7 +100,7 @@
           var html = "";
           var row_count = (plugin.settings.max_rows > 0)? plugin.settings.max_rows - 1 : reviews.length - 1;
           // make sure the row_count is not greater than available records
-          row_count = (row_count > reviews.length)? reviews.length -1 : row_count;
+          row_count = (row_count > reviews.length-1)? reviews.length -1 : row_count;
           for (var i = row_count; i >= 0; i--) {
             var stars = renderStars(reviews[i].rating);
             var date = convertTime(reviews[i].time);
