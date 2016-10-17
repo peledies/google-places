@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="../google-places.css">
   </head>
   <body>
-    <div id="schema"></div>
+    <div id="schema"><b>Schema - </b></div>
+    <div id="custom-address-id"><b>Address - </b></div>
+    <div id="google-phone"><b>Phone - </b></div></br>
     <div id="google-reviews"></div>
   </body>
 
@@ -19,16 +21,19 @@
 
       $("#google-reviews").googlePlaces({
           placeId: 'ChIJa2uI-Nt4bIcR5cvnOxD4cFg'
-        , render: ['reviews']
+        , render: ['reviews','address','phone']
         , min_rating: 4
         , max_rows:5
         , schema:{
-                  displayElement: "#schema"
-                , type: 'Hostel'
-                , beforeText: 'Google Users Have Rated'
-                , middleText: 'based on'
-                , afterText: 'ratings and reviews'
-            }
+              displayElement: "#schema"
+            , type: 'Hostel'
+            , beforeText: 'Google Users Have Rated'
+            , middleText: 'based on'
+            , afterText: 'ratings and reviews'
+          }
+        , address:{
+            displayElement: "#custom-address-id"
+          }
       });
 
     });
