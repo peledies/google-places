@@ -179,12 +179,18 @@
   , max_rows:5
   , rotateTime:5000
   , schema: {
-            displayElement: '#schema'
+            displayElement: '#schema' // optional, will use "#schema" by default
           , beforeText: 'Googlers rated'
           , middleText: 'based on'
           , afterText: 'awesome reviewers.'
           , type: 'Hostel'
       }
+  , address:{
+    displayElement: "#custom-address-id" // optional, will use "#google-address" by default
+  }
+  , phone:{
+    displayElement: "#custom-phone-id" // optional, will use "#google-phone" by default
+  }
 });
 </code></pre>
 
