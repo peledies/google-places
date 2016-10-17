@@ -16,6 +16,12 @@
                 , middleText: 'based on'
                 , afterText: 'ratings and reviews'
             }
+            , address:{
+                displayElement: "#google-address"
+              }
+            , phone:{
+                displayElement: "#google-phone"
+            }
         };
 
         var plugin = this;
@@ -38,8 +44,25 @@
                   initRotation();
               }
             }
+            if(plugin.settings.render.indexOf('address') > -1){
+              renderAddress(
+                  capture_element(plugin.settings.address.displayElement)
+                , plugin.place_data.adr_address
+              );
+            }
+            if(plugin.settings.render.indexOf('phone') > -1){
+              renderPhone(
+                  capture_element(plugin.settings.phone.displayElement)
+                , plugin.place_data.formatted_phone_number
+              );
+            }
             // render schema markup
-            if(plugin.settings.schema.displayElement instanceof jQuery){
+
+            addSchemaMarkup(
+                capture_element(plugin.settings.schema.displayElement)
+              , plugin.place_data
+            );
+            /*if(plugin.settings.schema.displayElement instanceof jQuery){
                 addSchemaMarkup(plugin.place_data);
             }else if(typeof plugin.settings.schema.displayElement == 'string'){
               try{
@@ -53,8 +76,25 @@
               }catch(e){
                 console.warn(e); 
               } 
-            }
+            }*/
           });
+        }
+
+        var capture_element = function(element){
+          if(element instanceof jQuery){
+            return element;
+          }else if(typeof element == 'string'){
+            try{
+              var ele = $(element);
+              if( ele.length ){
+                return ele;  
+              }else{
+                throw 'Element [' + element + '] couldnt be found in the DOM. Skipping '+element+' markup generation.';
+              }
+            }catch(e){
+              console.warn(e); 
+            } 
+          }
         }
 
         var initialize_place = function(c){
@@ -109,6 +149,19 @@
           $element.append(html);
         }
         
+
+        var renderAddress = function(element, data){
+          if(element instanceof jQuery){
+            element.append(data);
+          }         
+        }
+
+        var renderPhone = function(element, data){
+          if(element instanceof jQuery){
+            element.append(data);
+          }
+        }
+
         var initRotation = function() {
             var $reviewEls = $element.children('.review-item');
             var currentIdx = $reviewEls.length > 0 ? 0 : false;
@@ -150,7 +203,7 @@
           return time;
         }
         
-        var addSchemaMarkup = function(placeData) {
+        var addSchemaMarkup = function(element, placeData) {
           var reviews = placeData.reviews;
           var lastIndex = reviews.length - 1;
           var reviewPointTotal = 0;
@@ -160,15 +213,17 @@
           };
           // Set totals and averages - may be used later.
           var averageReview = reviewPointTotal / ( reviews.length );
-            schema.displayElement.append( '<span itemscope="" itemtype="http://schema.org/' + schema.type + '">'
+          if(element instanceof jQuery){
+            element.append( '<span itemscope="" itemtype="http://schema.org/' + schema.type + '">'
             +  '<meta itemprop="url" content="' + location.origin + '">'
             +  schema.beforeText + ' <span itemprop="name">' + placeData.name + '</span> '
             +  '<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">'
-            +    '<span itemprop="ratingValue">' + averageReview + '</span>/<span itemprop="bestRating">5</span> '
+            +    '<span itemprop="ratingValue">' + averageReview.toFixed(2) + '</span>/<span itemprop="bestRating">5</span> '
             +  schema.middleText + ' <span itemprop="ratingCount">' + reviews.length + '</span> '
             +  schema.afterText
             +  '</span>'
             +'</span>');
+          }
         }
         
         plugin.init();
