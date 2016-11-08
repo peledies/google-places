@@ -169,6 +169,42 @@
   </tbody>
 </table>
 
+
+<h3>
+<a id="usage" class="anchor" href="#staticMap" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>staticMap options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>width</td>
+      <td>map width</td>
+      <td>512</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td>map height</td>
+      <td>512</td>
+    </tr>
+    <tr>
+      <td>zoom</td>
+      <td>zoom index for map</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>map type (roadmap, terrain, satellite, hybrid)</td>
+      <td>roadmap</td>
+    </tr>
+  </tbody>
+</table>
+
 <h3>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
 
@@ -192,7 +228,11 @@
     displayElement: "#custom-phone-id" // optional, will use "#google-phone" by default
   }
   , staticMap:{
-      displayElement: "#google-static-map"
+        displayElement: "#google-static-map"
+      , width: 200
+      , height: 200
+      , zoom: 15
+      , type: "satellite"
   }
   , hours:{
       displayElement: "#google-hours"
