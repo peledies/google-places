@@ -57,6 +57,14 @@ The schema markup will render something like below:
 | **afterText** | String | last text in rating | 'ratings and reviews' |
 | **type** | String | schema.org [type](https://schema.org/docs/full.html) | 'Store' |
 
+### staticMap options
+| property | Description | Default |
+|----------|-------------|----------|
+| **width** | map width | 512 |
+| **height** | map height | 512 |
+| **zoom** | zoom index for map | 17 |
+| **type** | map type (roadmap, terrain, satellite, hybrid) | roadmap |
+
 
 ### Usage
 
