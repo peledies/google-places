@@ -86,7 +86,7 @@
 <tbody>
 <tr>
 <td><strong>render</strong></td>
-<td>Currently only supports reviews</td>
+<td>supports reviews, schema, phone, address, hours, staticMap | ['reviews','phone','hours','address,'staticMap']</td>
 </tr>
 <tr>
 <td><strong>min_rating</strong></td>
@@ -174,17 +174,29 @@
 
 <pre><code>$("#google-reviews").googlePlaces({
     placeId: 'ChIJa2uI-Nt4bIcR5cvnOxD4cFg'
-  , render: ['reviews']
+  , render: ['reviews','staticMap','hours']
   , min_rating: 4
   , max_rows:5
   , rotateTime:5000
   , schema: {
-            displayElement: '#schema'
+            displayElement: '#schema' // optional, will use "#schema" by default
           , beforeText: 'Googlers rated'
           , middleText: 'based on'
           , afterText: 'awesome reviewers.'
           , type: 'Hostel'
       }
+  , address:{
+    displayElement: "#custom-address-id" // optional, will use "#google-address" by default
+  }
+  , phone:{
+    displayElement: "#custom-phone-id" // optional, will use "#google-phone" by default
+  }
+  , staticMap:{
+      displayElement: "#google-static-map"
+  }
+  , hours:{
+      displayElement: "#google-hours"
+  }
 });
 </code></pre>
 
