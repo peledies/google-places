@@ -23,7 +23,11 @@
                 displayElement: "#google-phone"
             }
             , staticMap:{
-                displayElement: "#google-static-map"
+                  displayElement: "#google-static-map"
+                , width: 512
+                , height: 512
+                , zoom: 17
+                , type: "roadmap"
             }
             , hours:{
                 displayElement: "#google-hours"
@@ -166,7 +170,14 @@
 
         var renderStaticMap = function(element, data){
           if(element instanceof jQuery){
-            element.append("<img src='https://maps.googleapis.com/maps/api/staticmap?size=512x512&zoom=17&maptype=roadmap&markers=size:large%7Ccolor:red%7C"+data+"'></img>");
+            var map = plugin.settings.staticMap;
+            element.append(
+              "<img src='https://maps.googleapis.com/maps/api/staticmap"+
+                "?size="+map.width+"x"+map.height+
+                "&zoom="+map.zoom+
+                "&maptype="+map.type+
+                "&markers=size:large%7Ccolor:red%7C"+data+"'>"+
+              "</img>");
           }         
         }
 
