@@ -27,7 +27,7 @@ Include these files in the head
 
 | Optional | Type | Description | Default |
 |----------|----------|-------------|----------|
-| **render** | Array | Currently only supports reviews and schema | ['reviews']
+| **render** | Array | supports reviews, schema, phone, address, hours, staticMap | ['reviews','phone','hours','address,'staticMap']
 | **min_rating** | Int | Only display reviews with a minimum rating (not applicable for schema)| 0
 | **max_rows** | Int | Maximum number of rows to show - 0 for all (not applicable for schema)| 0
 | **rotateTime** | Int | Time in MS to show review before rotating or false for no rotate | false
@@ -79,6 +79,12 @@ $("#google-reviews").googlePlaces({
   }
   , phone:{
     displayElement: "#custom-phone-id" // optional, will use "#google-phone" by default
+  }
+  , staticMap:{
+      displayElement: "#google-static-map" // optional, will use "#google-static-map" by default
+  }
+  , hours:{
+      displayElement: "#google-hours" // optional, will use "#google-hours" by default
   }
 });
 ```

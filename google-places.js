@@ -22,6 +22,12 @@
             , phone:{
                 displayElement: "#google-phone"
             }
+            , staticMap:{
+                displayElement: "#google-static-map"
+            }
+            , hours:{
+                displayElement: "#google-hours"
+            }
         };
 
         var plugin = this;
@@ -56,27 +62,25 @@
                 , plugin.place_data.formatted_phone_number
               );
             }
+            if(plugin.settings.render.indexOf('staticMap') > -1){
+              renderStaticMap(
+                  capture_element(plugin.settings.staticMap.displayElement)
+                , plugin.place_data.formatted_address
+              );
+            }
+            if(plugin.settings.render.indexOf('hours') > -1){
+              renderHours(
+                  capture_element(plugin.settings.hours.displayElement)
+                , plugin.place_data.opening_hours
+              );
+            }
+            
             // render schema markup
-
             addSchemaMarkup(
                 capture_element(plugin.settings.schema.displayElement)
               , plugin.place_data
             );
-            /*if(plugin.settings.schema.displayElement instanceof jQuery){
-                addSchemaMarkup(plugin.place_data);
-            }else if(typeof plugin.settings.schema.displayElement == 'string'){
-              try{
-                var ele = $(plugin.settings.schema.displayElement);
-                if( ele.length ){
-                  plugin.settings.schema.displayElement = ele; 
-                  addSchemaMarkup(plugin.place_data);
-                }else{
-                  throw 'Element [' + plugin.settings.schema.displayElement + '] couldnt be found in the DOM. Skipping schema markup generation.';
-                }
-              }catch(e){
-                console.warn(e); 
-              } 
-            }*/
+
           });
         }
 
@@ -149,6 +153,22 @@
           $element.append(html);
         }
         
+        var renderHours = function(element, data){
+          if(element instanceof jQuery){
+            var html = "<ul>";
+            data.weekday_text.forEach(function(day){
+              html += "<li>"+day+"</li>";
+            });
+            html += "</ul>";
+            element.append(html);
+          }         
+        }
+
+        var renderStaticMap = function(element, data){
+          if(element instanceof jQuery){
+            element.append("<img src='https://maps.googleapis.com/maps/api/staticmap?size=512x512&zoom=17&maptype=roadmap&markers=size:large%7Ccolor:red%7C"+data+"'></img>");
+          }         
+        }
 
         var renderAddress = function(element, data){
           if(element instanceof jQuery){
