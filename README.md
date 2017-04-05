@@ -11,6 +11,11 @@ Install with bower.
 bower install google-places
 ```
 
+### Install with npm
+```
+npm install google-places-data
+```
+
 ### Include
 Include these files in the head
 ```

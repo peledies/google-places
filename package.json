@@ -1,0 +1,24 @@
+{
+  "name": "google-places-data",
+  "version": "0.1.1",
+  "description": "A jquery plugin for rendering google places data.",
+  "main": "google-places.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peledies/google-places.git"
+  },
+  "keywords": [
+    "google",
+    "places",
+    "reviews"
+  ],
+  "author": "Deac <peledies@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peledies/google-places/issues"
+  },
+  "homepage": "https://github.com/peledies/google-places#readme"
+}
