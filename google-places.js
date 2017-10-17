@@ -8,6 +8,7 @@
             , render: ['reviews']
             , min_rating: 0
             , max_rows: 0
+            , map_plug_id: 'map-plug' 
             , rotateTime: false
             , schema:{
                   displayElement: '#schema'
@@ -44,7 +45,7 @@
         plugin.init = function() {
           plugin.settings = $.extend({}, defaults, options);
           plugin.settings.schema = $.extend({}, defaults.schema, options.schema);
-          $element.html("<div id='map-plug'></div>"); // create a plug for google to load data into
+          $element.html("<div id='" + plugin.settings.map_plug_id + "'></div>"); // create a plug for google to load data into
           initialize_place(function(place){
             plugin.place_data = place;
             // render specified sections
@@ -106,7 +107,7 @@
         }
 
         var initialize_place = function(c){
-          var map = new google.maps.Map(document.getElementById('map-plug'));
+          var map = new google.maps.Map(document.getElementById(plugin.settings.map_plug_id));
 
           var request = {
             placeId: plugin.settings.placeId
