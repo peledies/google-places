@@ -35,6 +35,7 @@ Include these files in the head
 | **render** | Array | supports reviews, schema, phone, address, hours, staticMap | ['reviews','phone','hours','address,'staticMap']
 | **min_rating** | Int | Only display reviews with a minimum rating (not applicable for schema)| 0
 | **max_rows** | Int | Maximum number of rows to show - 0 for all (not applicable for schema)| 0
+| **map_plug_id** | String | ID to use for 'map-plug'| map-plug
 | **rotateTime** | Int | Time in MS to show review before rotating or false for no rotate | false
 | **schema** | Object | Options for displaying Schema | see below |
 
@@ -79,6 +80,7 @@ $("#google-reviews").googlePlaces({
   , render: ['reviews']
   , min_rating: 4
   , max_rows:5
+  , map_plug_id: 'map-plug'
   , rotateTime:5000
   , schema: {
             displayElement: '#schema' // optional, will use "#schema" by default
