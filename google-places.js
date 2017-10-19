@@ -2,8 +2,9 @@
 (function($) {
 
     $.googlePlaces = function(element, options) {
-
-        var defaults = {
+        
+        var namespace = 'googlePlaces',
+            defaults = {
               placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4' // placeId provided by google api documentation
             , render: ['reviews']
             , min_rating: 0
@@ -48,6 +49,10 @@
           $element.html("<div id='" + plugin.settings.map_plug_id + "'></div>"); // create a plug for google to load data into
           initialize_place(function(place){
             plugin.place_data = place;
+            
+            // Trigger event before render
+            $element.trigger('beforeRender.' + namespace);
+            
             // render specified sections
             if(plugin.settings.render.indexOf('reviews') > -1){
               renderReviews(plugin.place_data.reviews);
@@ -85,6 +90,9 @@
                 capture_element(plugin.settings.schema.displayElement)
               , plugin.place_data
             );
+              
+            // Trigger event after render
+            $element.trigger('afterRender.' + namespace);
 
           });
         }
@@ -265,9 +273,9 @@
     $.fn.googlePlaces = function(options) {
 
         return this.each(function() {
-            if (undefined == $(this).data('googlePlaces')) {
+            if (undefined == $(this).data(namespace)) {
                 var plugin = new $.googlePlaces(this, options);
-                $(this).data('googlePlaces', plugin);
+                $(this).data(namespace, plugin);
             }
         });
 
