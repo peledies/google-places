@@ -2,8 +2,9 @@
 (function($) {
 
     $.googlePlaces = function(element, options) {
-
-        var defaults = {
+        
+        var namespace = 'googlePlaces',
+            defaults = {
               placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4' // placeId provided by google api documentation
             , render: ['reviews']
             , min_rating: 0
@@ -50,7 +51,7 @@
             plugin.place_data = place;
             
             // Trigger event before render
-            $element.trigger('beforeRender.googlePlaces');
+            $element.trigger('beforeRender.' + namespace);
             
             // render specified sections
             if(plugin.settings.render.indexOf('reviews') > -1){
@@ -91,7 +92,7 @@
             );
               
             // Trigger event after render
-            $element.trigger('afterRender.googlePlaces');
+            $element.trigger('afterRender.' + namespace);
 
           });
         }
@@ -272,9 +273,9 @@
     $.fn.googlePlaces = function(options) {
 
         return this.each(function() {
-            if (undefined == $(this).data('googlePlaces')) {
+            if (undefined == $(this).data(namespace)) {
                 var plugin = new $.googlePlaces(this, options);
-                $(this).data('googlePlaces', plugin);
+                $(this).data(namespace, plugin);
             }
         });
 
