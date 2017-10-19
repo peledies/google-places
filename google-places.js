@@ -48,6 +48,10 @@
           $element.html("<div id='" + plugin.settings.map_plug_id + "'></div>"); // create a plug for google to load data into
           initialize_place(function(place){
             plugin.place_data = place;
+            
+            // Trigger event before render
+            $element.trigger('beforeRender.googlePlaces');
+            
             // render specified sections
             if(plugin.settings.render.indexOf('reviews') > -1){
               renderReviews(plugin.place_data.reviews);
@@ -85,6 +89,9 @@
                 capture_element(plugin.settings.schema.displayElement)
               , plugin.place_data
             );
+              
+            // Trigger event after render
+            $element.trigger('afterRender.googlePlaces');
 
           });
         }
