@@ -7,18 +7,18 @@ Currently the only only thing that is rendered is a list view of reviews.
 
 ### Install
 Install with bower.
-```
+```sh
 bower install google-places
 ```
 
 ### Install with npm
-```
+```sh
 npm install google-places-data
 ```
 
 ### Include
 Include these files in the head
-```
+```html
 <link rel="stylesheet" href="bower_components/google-places/google-places.css">
 <script src="bower_components/google-places/google-places.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
@@ -41,7 +41,7 @@ Include these files in the head
 
 ### Optional Schema Markup
 The schema markup will render something like below: 
-```
+```html
 <span itemscope="" itemtype="http://schema.org/Store">
     <meta itemprop="url" content="http://example.com">
     Google Users Have Rated 
@@ -74,7 +74,7 @@ The schema markup will render something like below:
 
 ### Usage
 
-```
+```js
 $("#google-reviews").googlePlaces({
     placeId: 'ChIJa2uI-Nt4bIcR5cvnOxD4cFg'
   , render: ['reviews']
