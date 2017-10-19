@@ -103,3 +103,20 @@ $("#google-reviews").googlePlaces({
   }
 });
 ```
+
+### Events
+The plugin will trigger the following events, namespaced to '`googlePlaces`'
+
+| Event | Target | Description |
+|----------|-------------|----------|
+| **beforeRender** | element plugin | Triggered just before 'display elements' any are rendered |
+| **afterRender** | element plugin | Triggered just after all 'display elements' are rendered |
+
+```js
+function sayHi() {
+    alert('Hi!');
+}
+
+$("#google-reviews").on('afterRender.googlePlaces', sayHi);
+```
+
