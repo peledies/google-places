@@ -1,10 +1,11 @@
 /* https://github.com/peledies/google-places */
 (function($) {
 
+    var namespace = 'googlePlaces';
+
     $.googlePlaces = function(element, options) {
 
-        var namespace = 'googlePlaces',
-            defaults = {
+        var defaults = {
               placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4' // placeId provided by google api documentation
             , render: ['reviews']
             , min_rating: 0
