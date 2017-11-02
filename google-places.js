@@ -2,14 +2,14 @@
 (function($) {
 
     $.googlePlaces = function(element, options) {
-        
+
         var namespace = 'googlePlaces',
             defaults = {
               placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4' // placeId provided by google api documentation
             , render: ['reviews']
             , min_rating: 0
             , max_rows: 0
-            , map_plug_id: 'map-plug' 
+            , map_plug_id: 'map-plug'
             , rotateTime: false
             , schema:{
                   displayElement: '#schema'
@@ -49,10 +49,13 @@
           $element.html("<div id='" + plugin.settings.map_plug_id + "'></div>"); // create a plug for google to load data into
           initialize_place(function(place){
             plugin.place_data = place;
-            
+
             // Trigger event before render
             $element.trigger('beforeRender.' + namespace);
-            
+
+            if(plugin.settings.render.indexOf('rating') > -1){
+              renderRating(plugin.place_data.rating);
+            }
             // render specified sections
             if(plugin.settings.render.indexOf('reviews') > -1){
               renderReviews(plugin.place_data.reviews);
@@ -84,13 +87,13 @@
                 , plugin.place_data.opening_hours
               );
             }
-            
+
             // render schema markup
             addSchemaMarkup(
                 capture_element(plugin.settings.schema.displayElement)
               , plugin.place_data
             );
-              
+
             // Trigger event after render
             $element.trigger('afterRender.' + namespace);
 
@@ -104,13 +107,13 @@
             try{
               var ele = $(element);
               if( ele.length ){
-                return ele;  
+                return ele;
               }else{
                 throw 'Element [' + element + '] couldnt be found in the DOM. Skipping '+element+' markup generation.';
               }
             }catch(e){
-              console.warn(e); 
-            } 
+              console.warn(e);
+            }
           }
         }
 
@@ -151,6 +154,13 @@
           return reviews;
         }
 
+        var renderRating = function(rating){
+            var html = "";
+            var star = renderAverageStars(rating);
+            html = "<div class='average-rating'><h4>"+star+"</h4></div>";
+            $element.append(html);
+        }
+
         var renderReviews = function(reviews){
           reviews = sort_by_date(reviews);
           reviews = filter_minimum_rating(reviews);
@@ -165,7 +175,7 @@
           };
           $element.append(html);
         }
-        
+
         var renderHours = function(element, data){
           if(element instanceof jQuery){
             var html = "<ul>";
@@ -174,7 +184,7 @@
             });
             html += "</ul>";
             element.append(html);
-          }         
+          }
         }
 
         var renderStaticMap = function(element, data){
@@ -187,13 +197,13 @@
                 "&maptype="+map.type+
                 "&markers=size:large%7Ccolor:red%7C"+data+"'>"+
               "</img>");
-          }         
+          }
         }
 
         var renderAddress = function(element, data){
           if(element instanceof jQuery){
             element.append(data);
-          }         
+          }
         }
 
         var renderPhone = function(element, data){
@@ -208,7 +218,7 @@
             $reviewEls.hide();
             if(currentIdx !== false) {
                 $($reviewEls[currentIdx]).show();
-                setInterval(function(){ 
+                setInterval(function(){
                     if(++currentIdx >= $reviewEls.length) {
                         currentIdx = 0;
                     }
@@ -220,7 +230,7 @@
 
         var renderStars = function(rating){
           var stars = "<div class='review-stars'><ul>";
-                            
+
           // fill in gold stars
           for (var i = 0; i < rating; i++) {
             stars = stars+"<li><i class='star'></i></li>";
@@ -236,13 +246,38 @@
           return stars;
         }
 
+        var renderAverageStars = function(rating){
+            var stars = "<div class='review-stars'><ul><li><i>"+rating+"&nbsp;</i></li>";
+            var activeStars = parseInt(rating);
+            var inactiveStars = 5 - activeStars;
+            var width = (rating - activeStars) * 100 + '%';
+
+            // fill in gold stars
+            for (var i = 0; i < activeStars; i++) {
+              stars += "<li><i class='star'></i></li>";
+            };
+
+            // fill in empty stars
+            if(inactiveStars > 0){
+              for (var i = 0; i < inactiveStars; i++) {
+                  if (i === 0) {
+                      stars += "<li style='position: relative;'><i class='star inactive'></i><i class='star' style='position: absolute;top: 0;left: 0;overflow: hidden;width: "+width+"'></i></li>";
+                  } else {
+                      stars += "<li><i class='star inactive'></i></li>";
+                  }
+              };
+            }
+            stars += "</ul></div>";
+            return stars;
+        }
+
         var convertTime = function(UNIX_timestamp){
           var a = new Date(UNIX_timestamp * 1000);
           var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
           var time = months[a.getMonth()] + ' ' + a.getDate() + ', ' + a.getFullYear();
           return time;
         }
-        
+
         var addSchemaMarkup = function(element, placeData) {
           var reviews = placeData.reviews;
           var lastIndex = reviews.length - 1;
@@ -265,9 +300,9 @@
             +'</span>');
           }
         }
-        
+
         plugin.init();
-        
+
     }
 
     $.fn.googlePlaces = function(options) {
