@@ -12,6 +12,7 @@
             , max_rows: 0
             , map_plug_id: 'map-plug'
             , rotateTime: false
+            , shorten_names: true
             , schema:{
                   displayElement: '#schema'
                 , type: 'Store'
@@ -162,6 +163,14 @@
             $element.append(html);
         }
 
+        var shorten_name = function(name) {
+          if (name.split(" ").length > 1) {
+            var xname = "";
+            xname = name.split(" ");
+            return xname[0] + " " + xname[1][0] + ".";
+          }
+        }
+
         var renderReviews = function(reviews){
           reviews = sort_by_date(reviews);
           reviews = filter_minimum_rating(reviews);
@@ -172,7 +181,12 @@
           for (var i = row_count; i >= 0; i--) {
             var stars = renderStars(reviews[i].rating);
             var date = convertTime(reviews[i].time);
-            html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
+            if(plugin.settings.shorten_names == true) {
+              var name = shorten_name(reviews[i].author_name);
+            } else {
+              var name = reviews[i].author_name + "</span><span class='review-sep'>, </span>";
+            };
+            html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+name+"<span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
           };
           $element.append(html);
         }
