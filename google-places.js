@@ -1,6 +1,8 @@
 /* https://github.com/peledies/google-places */
 (function($) {
 
+    var namespace = 'googlePlaces';
+
     $.googlePlaces = function(element, options) {
 
         var defaults = {
@@ -8,7 +10,9 @@
             , render: ['reviews']
             , min_rating: 0
             , max_rows: 0
+            , map_plug_id: 'map-plug'
             , rotateTime: false
+            , shorten_names: true
             , schema:{
                   displayElement: '#schema'
                 , type: 'Store'
@@ -44,9 +48,16 @@
         plugin.init = function() {
           plugin.settings = $.extend({}, defaults, options);
           plugin.settings.schema = $.extend({}, defaults.schema, options.schema);
-          $element.html("<div id='map-plug'></div>"); // create a plug for google to load data into
+          $element.html("<div id='" + plugin.settings.map_plug_id + "'></div>"); // create a plug for google to load data into
           initialize_place(function(place){
             plugin.place_data = place;
+
+            // Trigger event before render
+            $element.trigger('beforeRender.' + namespace);
+
+            if(plugin.settings.render.indexOf('rating') > -1){
+              renderRating(plugin.place_data.rating);
+            }
             // render specified sections
             if(plugin.settings.render.indexOf('reviews') > -1){
               renderReviews(plugin.place_data.reviews);
@@ -78,12 +89,15 @@
                 , plugin.place_data.opening_hours
               );
             }
-            
+
             // render schema markup
             addSchemaMarkup(
                 capture_element(plugin.settings.schema.displayElement)
               , plugin.place_data
             );
+
+            // Trigger event after render
+            $element.trigger('afterRender.' + namespace);
 
           });
         }
@@ -95,18 +109,18 @@
             try{
               var ele = $(element);
               if( ele.length ){
-                return ele;  
+                return ele;
               }else{
                 throw 'Element [' + element + '] couldnt be found in the DOM. Skipping '+element+' markup generation.';
               }
             }catch(e){
-              console.warn(e); 
-            } 
+              console.warn(e);
+            }
           }
         }
 
         var initialize_place = function(c){
-          var map = new google.maps.Map(document.getElementById('map-plug'));
+          var map = new google.maps.Map(document.getElementById(plugin.settings.map_plug_id));
 
           var request = {
             placeId: plugin.settings.placeId
@@ -142,6 +156,21 @@
           return reviews;
         }
 
+        var renderRating = function(rating){
+            var html = "";
+            var star = renderAverageStars(rating);
+            html = "<div class='average-rating'><h4>"+star+"</h4></div>";
+            $element.append(html);
+        }
+
+        var shorten_name = function(name) {
+          if (name.split(" ").length > 1) {
+            var xname = "";
+            xname = name.split(" ");
+            return xname[0] + " " + xname[1][0] + ".";
+          }
+        }
+
         var renderReviews = function(reviews){
           reviews = sort_by_date(reviews);
           reviews = filter_minimum_rating(reviews);
@@ -152,11 +181,16 @@
           for (var i = row_count; i >= 0; i--) {
             var stars = renderStars(reviews[i].rating);
             var date = convertTime(reviews[i].time);
-            html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+reviews[i].author_name+"</span><span class='review-sep'>, </span><span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
+            if(plugin.settings.shorten_names == true) {
+              var name = shorten_name(reviews[i].author_name);
+            } else {
+              var name = reviews[i].author_name + "</span><span class='review-sep'>, </span>";
+            };
+            html = html+"<div class='review-item'><div class='review-meta'><span class='review-author'>"+name+"<span class='review-date'>"+date+"</span></div>"+stars+"<p class='review-text'>"+reviews[i].text+"</p></div>"
           };
           $element.append(html);
         }
-        
+
         var renderHours = function(element, data){
           if(element instanceof jQuery){
             var html = "<ul>";
@@ -165,7 +199,7 @@
             });
             html += "</ul>";
             element.append(html);
-          }         
+          }
         }
 
         var renderStaticMap = function(element, data){
@@ -178,13 +212,13 @@
                 "&maptype="+map.type+
                 "&markers=size:large%7Ccolor:red%7C"+data+"'>"+
               "</img>");
-          }         
+          }
         }
 
         var renderAddress = function(element, data){
           if(element instanceof jQuery){
             element.append(data);
-          }         
+          }
         }
 
         var renderPhone = function(element, data){
@@ -199,7 +233,7 @@
             $reviewEls.hide();
             if(currentIdx !== false) {
                 $($reviewEls[currentIdx]).show();
-                setInterval(function(){ 
+                setInterval(function(){
                     if(++currentIdx >= $reviewEls.length) {
                         currentIdx = 0;
                     }
@@ -211,7 +245,7 @@
 
         var renderStars = function(rating){
           var stars = "<div class='review-stars'><ul>";
-                            
+
           // fill in gold stars
           for (var i = 0; i < rating; i++) {
             stars = stars+"<li><i class='star'></i></li>";
@@ -227,13 +261,38 @@
           return stars;
         }
 
+        var renderAverageStars = function(rating){
+            var stars = "<div class='review-stars'><ul><li><i>"+rating+"&nbsp;</i></li>";
+            var activeStars = parseInt(rating);
+            var inactiveStars = 5 - activeStars;
+            var width = (rating - activeStars) * 100 + '%';
+
+            // fill in gold stars
+            for (var i = 0; i < activeStars; i++) {
+              stars += "<li><i class='star'></i></li>";
+            };
+
+            // fill in empty stars
+            if(inactiveStars > 0){
+              for (var i = 0; i < inactiveStars; i++) {
+                  if (i === 0) {
+                      stars += "<li style='position: relative;'><i class='star inactive'></i><i class='star' style='position: absolute;top: 0;left: 0;overflow: hidden;width: "+width+"'></i></li>";
+                  } else {
+                      stars += "<li><i class='star inactive'></i></li>";
+                  }
+              };
+            }
+            stars += "</ul></div>";
+            return stars;
+        }
+
         var convertTime = function(UNIX_timestamp){
           var a = new Date(UNIX_timestamp * 1000);
           var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
           var time = months[a.getMonth()] + ' ' + a.getDate() + ', ' + a.getFullYear();
           return time;
         }
-        
+
         var addSchemaMarkup = function(element, placeData) {
           var reviews = placeData.reviews;
           var lastIndex = reviews.length - 1;
@@ -256,17 +315,17 @@
             +'</span>');
           }
         }
-        
+
         plugin.init();
-        
+
     }
 
     $.fn.googlePlaces = function(options) {
 
         return this.each(function() {
-            if (undefined == $(this).data('googlePlaces')) {
+            if (undefined == $(this).data(namespace)) {
                 var plugin = new $.googlePlaces(this, options);
-                $(this).data('googlePlaces', plugin);
+                $(this).data(namespace, plugin);
             }
         });
 

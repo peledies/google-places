@@ -1,6 +1,6 @@
 {
   "name": "google-places-data",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A jquery plugin for rendering google places data.",
   "main": "google-places.js",
   "scripts": {
