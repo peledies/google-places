@@ -1,0 +1,39 @@
+{
+  "name": "google-places",
+  "version": "0.1.2",
+  "authors": [
+    "Deac <peledies@gmail.com>"
+  ],
+  "description": "A jquery plugin for rendering google places data.",
+  "main": "google-places.js",
+  "keywords": [
+    "google",
+    "places",
+    "reviews"
+  ],
+  "license": "MIT",
+  "homepage": "karnsonline.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.11.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:peledies/google-places.git"
+  },
+  "_release": "0.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.2",
+    "commit": "d4f720e96a0b11f7955662dc3c4cfc9e68929724"
+  },
+  "_source": "https://github.com/peledies/google-places.git",
+  "_target": "*",
+  "_originalSource": "google-places"
+}

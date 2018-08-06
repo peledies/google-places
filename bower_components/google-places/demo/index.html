@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place Demo</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/peledies/google-places/master/google-places.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+    <link rel="stylesheet" href="https://rawgit.com/peledies/google-places/master/google-places.css">
+  </head>
+  <body>
+    <div id="schema"><b>Schema - </b></div>
+    <div id="custom-address-id"><b>Address - </b></div>
+    <div id="google-phone"><b>Phone - </b></div></br>
+    <div id="google-reviews"></div>
+  </body>
+
+  <script>
+    $(document).ready(function() {
+
+      $("#google-reviews").googlePlaces({
+          placeId: 'ChIJa2uI-Nt4bIcR5cvnOxD4cFg'
+        , render: ['reviews','address','phone']
+        , min_rating: 4
+        , max_rows:5
+        , shorten_names: false
+        , schema:{
+              displayElement: "#schema"
+            , type: 'Hostel'
+            , beforeText: 'Google Users Have Rated'
+            , middleText: 'based on'
+            , afterText: 'ratings and reviews'
+          }
+        , address:{
+            displayElement: "#custom-address-id"
+          }
+      });
+
+    });
+  </script>
+</html>

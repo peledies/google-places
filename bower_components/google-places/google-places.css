@@ -1,0 +1,21 @@
+.review-stars ul {
+  display: inline-block;
+  list-style: none;
+}
+
+.review-stars ul li {
+  float: left;
+  margin-right: 5px;
+}
+
+.review-stars ul li i {
+  color: #E4B248;
+  font-size: 12px;
+}
+/*color: #E4B248;*/
+.review-stars ul li i.inactive {
+  color: #c6c6c6;
+}
+.star:after {
+  content: "\2605";
+}
