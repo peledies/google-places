@@ -82,6 +82,7 @@ $("#google-reviews").googlePlaces({
   , max_rows:5
   , map_plug_id: 'map-plug'
   , rotateTime:5000
+  , shorten_names: true
   , schema: {
             displayElement: '#schema' // optional, will use "#schema" by default
           , beforeText: 'Googlers rated'
