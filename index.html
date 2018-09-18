@@ -101,6 +101,10 @@
 <td>Time in MS to show review before rotating or false for no rotate</td>
 </tr>
 <tr>
+<td><strong>shorten_names</strong></td>
+<td>Shorten Author Last Name to X.</td>
+</tr>
+<tr>
   <td>schema</td>
   <td>Options for displaying Schema see below</td>
 </tr>
@@ -213,7 +217,8 @@
   , render: ['reviews','staticMap','hours']
   , min_rating: 4
   , max_rows:5
-  , rotateTime:5000
+  , rotateTime:5000,
+  , shorten_names: false
   , schema: {
             displayElement: '#schema' // optional, will use "#schema" by default
           , beforeText: 'Googlers rated'
@@ -255,6 +260,7 @@
       , render: ['reviews']
       , min_rating: 4
       , max_rows:5
+      , shorten_names: false
       , rotateTime:2500
     });
   });

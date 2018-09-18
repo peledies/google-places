@@ -1,6 +1,6 @@
 {
   "name": "google-places",
-  "version": "0.0.6",
+  "version": "0.1.2",
   "authors": [
     "Deac <peledies@gmail.com>"
   ],
@@ -27,13 +27,13 @@
     "type": "git",
     "url": "git@github.com:peledies/google-places.git"
   },
-  "_release": "0.0.6",
+  "_release": "0.1.2",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.6",
-    "commit": "7644e84ecf191770e478e719f2025775f14bf650"
+    "tag": "0.1.2",
+    "commit": "d4f720e96a0b11f7955662dc3c4cfc9e68929724"
   },
-  "_source": "git://github.com/peledies/google-places.git",
+  "_source": "https://github.com/peledies/google-places.git",
   "_target": "*",
   "_originalSource": "google-places"
 }
