@@ -37,6 +37,7 @@ Include these files in the head
 | **max_rows** | Int | Maximum number of rows to show - 0 for all (not applicable for schema)| 0
 | **map_plug_id** | String | ID to use for 'map-plug'| map-plug
 | **rotateTime** | Int | Time in MS to show review before rotating or false for no rotate | false
+| **shorten_names** | Int | Shorten Author Last Name to X. | true
 | **schema** | Object | Options for displaying Schema | see below |
 
 ### Optional Schema Markup
