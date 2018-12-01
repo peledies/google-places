@@ -1,7 +1,7 @@
 # google-places
 A jQuery plugin to render google places data.
 
-Currently the only only thing that is rendered is a list view of reviews. 
+Currently the only only thing that is rendered is a list view of reviews.
 
 [Demos](http://peledies.github.io/google-places/)
 
@@ -41,16 +41,16 @@ Include these files in the head
 | **schema** | Object | Options for displaying Schema | see below |
 
 ### Optional Schema Markup
-The schema markup will render something like below: 
+The schema markup will render something like below:
 ```html
 <span itemscope="" itemtype="http://schema.org/Store">
     <meta itemprop="url" content="http://example.com">
-    Google Users Have Rated 
+    Google Users Have Rated
     <span itemprop="name">
         Hostel Fish
-    </span> 
+    </span>
     <span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
-        <span itemprop="ratingValue">5</span>/<span itemprop="bestRating">5</span> 
+        <span itemprop="ratingValue">5</span>/<span itemprop="bestRating">5</span>
         based on <span itemprop="ratingCount">5</span> ratings and reviews
     </span>
 </span>
@@ -63,6 +63,8 @@ The schema markup will render something like below:
 | **middleText** | String | Text in between ratings | 'based on' |
 | **afterText** | String | last text in rating | 'ratings and reviews' |
 | **type** | String | schema.org [type](https://schema.org/docs/full.html) | 'Store' |
+| **image** | String | url to your company image | null |
+| **priceRange** | String | Price range ($$) | null |
 
 ### staticMap options
 | property | Description | Default |
@@ -90,6 +92,8 @@ $("#google-reviews").googlePlaces({
           , middleText: 'based on'
           , afterText: 'awesome reviewers.'
           , type: 'Hostel'
+          , image: 'https://via.placeholder.com/150'
+          , priceRange: '$$'
       }
   , address:{
     displayElement: "#custom-address-id" // optional, will use "#google-address" by default
@@ -121,4 +125,3 @@ function sayHi() {
 
 $("#google-reviews").on('afterRender.googlePlaces', sayHi);
 ```
-
