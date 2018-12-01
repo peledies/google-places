@@ -19,6 +19,8 @@
                 , beforeText: 'Google Users Have Rated'
                 , middleText: 'based on'
                 , afterText: 'ratings and reviews'
+                , image: null
+                , priceRange: null
             }
             , address:{
                 displayElement: "#google-address"
@@ -294,26 +296,67 @@
         }
 
         var addSchemaMarkup = function(element, placeData) {
+
+          if(element instanceof jQuery){
+            var schema = plugin.settings.schema;
+            var schemaMarkup = '<span itemscope="" itemtype="http://schema.org/' + schema.type + '">';
+
+            if(schema.image !== null) {
+              schemaMarkup += generateSchemaItemMarkup('image', schema.image);
+            } else {
+              console.warn('Image is required for some schema types. Visit https://search.google.com/structured-data/testing-tool to test your schema output.');
+            }
+
+            if(schema.priceRange !== null) {
+              schemaMarkup += generateSchemaItemMarkup('priceRange', schema.priceRange);
+            }
+
+            schemaMarkup += generateSchemaItemMarkup('url', location.origin);
+            schemaMarkup += generateSchemaItemMarkup('telephone', plugin.place_data.formatted_phone_number );
+            schemaMarkup += generateSchemaAddressMarkup();
+            schemaMarkup += generateSchemaRatingMarkup(placeData, schema);
+            schemaMarkup += '</span>';
+
+            element.append(schemaMarkup);
+          }
+        }
+
+        var generateSchemaAddressMarkup = function() {
+          var $address = $('<div />', {
+              itemprop: "address"
+            , itemscope: ''
+            , itemtype: "http://schema.org/PostalAddress"
+          }).css('display', 'none');
+          $address.append(plugin.place_data.adr_address);
+          $address.children('.street-address').attr('itemprop', 'streetAddress');
+          $address.children('.locality').attr('itemprop', 'addressLocality');
+          $address.children('.region').attr('itemprop', 'addressRegion');
+          $address.children('.postal-code').attr('itemprop', 'postalCode');
+          $address.children('.country-name').attr('itemprop', 'addressCountry');
+          return $address[0].outerHTML;
+        }
+
+        var generateSchemaRatingMarkup = function(placeData, schema) {
           var reviews = placeData.reviews;
           var lastIndex = reviews.length - 1;
           var reviewPointTotal = 0;
-          var schema = plugin.settings.schema;
+
           for (var i = lastIndex; i >= 0; i--) {
             reviewPointTotal += reviews[i].rating;
           };
-          // Set totals and averages - may be used later.
+
           var averageReview = reviewPointTotal / ( reviews.length );
-          if(element instanceof jQuery){
-            element.append( '<span itemscope="" itemtype="http://schema.org/' + schema.type + '">'
-            +  '<meta itemprop="url" content="' + location.origin + '">'
-            +  schema.beforeText + ' <span itemprop="name">' + placeData.name + '</span> '
-            +  '<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">'
-            +    '<span itemprop="ratingValue">' + averageReview.toFixed(2) + '</span>/<span itemprop="bestRating">5</span> '
-            +  schema.middleText + ' <span itemprop="ratingCount">' + reviews.length + '</span> '
-            +  schema.afterText
-            +  '</span>'
-            +'</span>');
-          }
+
+          return schema.beforeText + ' <span itemprop="name">' + placeData.name + '</span> '
+          +  '<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">'
+          +    '<span itemprop="ratingValue">' + averageReview.toFixed(2) + '</span>/<span itemprop="bestRating">5</span> '
+          +  schema.middleText + ' <span itemprop="ratingCount">' + reviews.length + '</span> '
+          +  schema.afterText
+          +  '</span>'
+        }
+
+        var generateSchemaItemMarkup = function(name, value) {
+          return '<meta itemprop="' + name + '" content="' + value + '">'
         }
 
         plugin.init();
