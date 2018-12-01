@@ -43,16 +43,25 @@ Include these files in the head
 ### Optional Schema Markup
 The schema markup will render something like below:
 ```html
-<span itemscope="" itemtype="http://schema.org/Store">
-    <meta itemprop="url" content="http://example.com">
-    Google Users Have Rated
-    <span itemprop="name">
-        Hostel Fish
-    </span>
-    <span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
-        <span itemprop="ratingValue">5</span>/<span itemprop="bestRating">5</span>
-        based on <span itemprop="ratingCount">5</span> ratings and reviews
-    </span>
+<span itemscope="" itemtype="http://schema.org/Hostel">
+  <meta itemprop="image" content="https://via.placeholder.com/150">
+  <meta itemprop="priceRange" content="$$">
+  <meta itemprop="url" content="https://example.org">
+  <meta itemprop="telephone" content="(303) 954-0962">
+  <div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress" style="display: none;">
+    <span class="street-address" itemprop="streetAddress">1217 20th St</span>,
+    <span class="locality" itemprop="addressLocality">Denver</span>,
+    <span class="region" itemprop="addressRegion">CO</span>
+    <span class="postal-code" itemprop="postalCode">80202</span>,
+    <span class="country-name" itemprop="addressCountry">USA</span>
+  </div>
+  Google Users Have Rated
+  <span itemprop="name">Hostel Fish</span>
+  <span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+    <span itemprop="ratingValue">4.80</span>/<span itemprop="bestRating">5</span>
+    based on <span itemprop="ratingCount">5</span>
+    ratings and reviews
+  </span>
 </span>
 ```
 
