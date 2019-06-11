@@ -1,7 +1,7 @@
 # google-places
 A jQuery plugin to render google places data.
 
-Currently the only only thing that is rendered is a list view of reviews. 
+Currently the only only thing that is rendered is a list view of reviews.
 
 [Demos](http://peledies.github.io/google-places/)
 
@@ -41,18 +41,27 @@ Include these files in the head
 | **schema** | Object | Options for displaying Schema | see below |
 
 ### Optional Schema Markup
-The schema markup will render something like below: 
+The schema markup will render something like below:
 ```html
-<span itemscope="" itemtype="http://schema.org/Store">
-    <meta itemprop="url" content="http://example.com">
-    Google Users Have Rated 
-    <span itemprop="name">
-        Hostel Fish
-    </span> 
-    <span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
-        <span itemprop="ratingValue">5</span>/<span itemprop="bestRating">5</span> 
-        based on <span itemprop="ratingCount">5</span> ratings and reviews
-    </span>
+<span itemscope="" itemtype="http://schema.org/Hostel">
+  <meta itemprop="image" content="https://via.placeholder.com/150">
+  <meta itemprop="priceRange" content="$$">
+  <meta itemprop="url" content="https://example.org">
+  <meta itemprop="telephone" content="(303) 954-0962">
+  <div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress" style="display: none;">
+    <span class="street-address" itemprop="streetAddress">1217 20th St</span>,
+    <span class="locality" itemprop="addressLocality">Denver</span>,
+    <span class="region" itemprop="addressRegion">CO</span>
+    <span class="postal-code" itemprop="postalCode">80202</span>,
+    <span class="country-name" itemprop="addressCountry">USA</span>
+  </div>
+  Google Users Have Rated
+  <span itemprop="name">Hostel Fish</span>
+  <span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
+    <span itemprop="ratingValue">4.80</span>/<span itemprop="bestRating">5</span>
+    based on <span itemprop="ratingCount">5</span>
+    ratings and reviews
+  </span>
 </span>
 ```
 
@@ -63,6 +72,8 @@ The schema markup will render something like below:
 | **middleText** | String | Text in between ratings | 'based on' |
 | **afterText** | String | last text in rating | 'ratings and reviews' |
 | **type** | String | schema.org [type](https://schema.org/docs/full.html) | 'Store' |
+| **image** | String | url to your company image | null |
+| **priceRange** | String | Price range ($$) | null |
 
 ### staticMap options
 | property | Description | Default |
@@ -90,6 +101,8 @@ $("#google-reviews").googlePlaces({
           , middleText: 'based on'
           , afterText: 'awesome reviewers.'
           , type: 'Hostel'
+          , image: 'https://via.placeholder.com/150'
+          , priceRange: '$$'
       }
   , address:{
     displayElement: "#custom-address-id" // optional, will use "#google-address" by default
@@ -121,4 +134,3 @@ function sayHi() {
 
 $("#google-reviews").on('afterRender.googlePlaces', sayHi);
 ```
-
